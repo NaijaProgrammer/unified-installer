@@ -1,6 +1,6 @@
 <?php
-defined('PHPUTIL_DIR') or die('illegal or unauthorized access');
-require_once(PHPUTIL_DIR. "/ini.php");
+defined('PCL_DIR') or die('illegal or unauthorized access to unified-installer-finalize file');
+require_once(PCL_DIR. "/ini.php");
 SessionManipulator::start_session();
 
 $plugins_to_install             = Util::unstringify($_SESSION['plugins_to_install']);
