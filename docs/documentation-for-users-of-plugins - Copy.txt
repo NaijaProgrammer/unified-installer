@@ -1,0 +1,5 @@
+/**
+* documentation file for users of Michael Orji's plugins
+*/
+1. Place all plugin folders in the same folder as the unified-installer folder
+2. Navigate to unified-install url with your browser and the installation is automatically handled

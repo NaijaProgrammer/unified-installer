@@ -1,0 +1,24 @@
+/**
+* This file contains the installation flow for the Michael Orji's plugins installer
+* @author Michael Orji
+* @date April 11, 2015
+*/
+
+1. User navigates to unified-installer using their browser, and is presented the installation form
+2. Unified installer creates the unified configuration file in the directory housing the plugins (using values entered by user in the installation form)
+3. Unified installer navigates to the installer page of the first plugin in-line to be installed
+4. Plugin installer page includes the 'unified-installer-setup.php' file (and installation form)
+5. 'unified-installer-setup.php' file creates a local copy of the 'unified-installer-check.php' by copying the one from the /unified-installer directory to current plugin's directory
+6. 'unified-installer-setup.php' file then redirects to current plugin's 'basic-config-setup.php' file
+7. Current plugin's 'basic-config-setup.php' file then includes the (above created) local copy of the 'unified-installer-check.php' file
+8. Local 'unified-installer-check.php' file checks to ensure that the unified configuration file exists
+9. Current plugin's 'basic-config-setup.php' file then uses the values from the unified configuration file to create the plugin's app-confing file and runs the installation of the plugin
+10. On installe complete, page is redirected to the finalizer page, /unified-installer/unified-installer-finalize.php file
+11. the finalizer page does the following:
+    A. removes the just installed plugin from the plugins-to-install stack
+    B. deletes the local copy of the 'unified-installer-check.php' file, as it is no longer needed
+    C. checks to see if the plugins-to-install stack is empty:
+       b. if not empty, it gets the next plugin in line from the plugins-to-install stack and navigates to its install page (from whence steps 4 - 11 is repeated again) 
+       a. if empty, it redirects to the installation-complete-url specified by user in the installation form
+       
+    
