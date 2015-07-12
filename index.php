@@ -100,7 +100,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'):
     
 	$content = "<?php". NL. NL.
 	
-               "require_once('". PHPUTIL_DIR. "/ini.php');". NL. NL. NL.
+               "require_once('". PCL_DIR. "/ini.php');". NL. NL. NL.
 			  
 			   "/**". NL. "* database server name".  NL. "*/". NL.
                "define('DB_SERVER', '$db_server');". NL. NL. NL.
