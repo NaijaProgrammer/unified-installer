@@ -1,5 +1,6 @@
 <?php
-require_once('C:/wamp/www/code-libraries/PHPUtil/ini.php');
+require_once dirname(dirname(dirname(__FILE__))). '/pcl/ini.php';
+
 SessionManipulator::start_session();
 define("INSTALLER_INDEX", true);
 define("NL", "\r\n");
@@ -43,9 +44,6 @@ $available_plugins_str  = "<div><label>Choose Apps to Install</label><br/>". "\r
 
 foreach($eligible_plugins AS $plugin_directory)
 {	
-	/**
-	* set values of variables needed by installer-form.php
-	*/
 	if($plugin_directory == 'session-manager')
 	{
 		$session_manager_directory_exists = true;
@@ -55,21 +53,41 @@ foreach($eligible_plugins AS $plugin_directory)
 		$user_manager_directory_exists = true;
 	}
 	
-	if(isset($_POST['plugins'][$plugin_directory]))
+	if($_SERVER['REQUEST_METHOD'] == 'POST')
+	{
+		/**
+		* set values of variables needed by installer-form.php
+		*/
+		if(isset($_POST['plugins'][$plugin_directory]))
+		{
+			$plugins_to_install[] = $plugin_directory;
+		}
+		$state = isset($_POST['plugins'][$plugin_directory]) ? 'checked="checked"' : '';
+		$available_plugins_str .= $plugin_directory. " <input type=\"checkbox\" name=\"plugins[$plugin_directory]\" $state /><br/>". "\r\n";
+	}
+	else
 	{
 		$plugins_to_install[] = $plugin_directory;
 	}
-	$state = isset($_POST['plugins'][$plugin_directory]) ? 'checked="checked"' : '';
-	$available_plugins_str .= $plugin_directory. " <input type=\"checkbox\" name=\"plugins[$plugin_directory]\" $state /><br/>". "\r\n";
 }
 
 $available_plugins_str .= "</div>";
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'):
+if( ($_SERVER['REQUEST_METHOD'] == 'POST') || isset($_SESSION['unified-installer-plugin-installation-values']) ):
 
-	foreach($_POST AS $key => $value)
+	if($_SERVER['REQUEST_METHOD'] == 'POST')
 	{
-		$$key = ( !is_array($value) && is_string($value) ) ? trim($value) : $value;
+		foreach($_POST AS $key => $value)
+		{
+			$$key = ( !is_array($value) && is_string($value) ) ? trim($value) : $value;
+		}
+	}
+	else if(isset($_SESSION['unified-installer-plugin-installation-values']))
+	{
+		foreach($_SESSION['unified-installer-plugin-installation-values'] AS $key => $value)
+		{
+			$$key = ( !is_array($value) && is_string($value) ) ? trim($value) : $value;
+		}
 	}
 	
 	$mat[0]['error_condition'] = empty($db_server);
@@ -78,7 +96,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'):
 	$mat[1]['error_message']   = 'The Database user field cannot be empty';
 	$mat[2]['error_condition'] = empty($db_name);
 	$mat[2]['error_message']   = 'The Database name field cannot be empty';
-	$mat[3]['error_condition'] = !isset($_POST['plugins']);
+	$mat[3]['error_condition'] = empty($plugins_to_install); //!isset($_POST['plugins']);
 	$mat[3]['error_message']   = 'You must specify at least one plugin to install';
 	$mat[4]['error_condition'] = empty($installation_complete_url);
 	$mat[4]['error_message']   = 'Specify the URL to redirect to on successful install';
@@ -131,4 +149,3 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'):
 endif; //end if $_SERVER['REQUEST_METHOD'] == 'POST'
 
 require_once('installer-form.php');
-?>
