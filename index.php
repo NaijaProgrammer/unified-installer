@@ -121,22 +121,22 @@ if( ($_SERVER['REQUEST_METHOD'] == 'POST') || isset($_SESSION['unified-installer
                "require_once('". PCL_DIR. "/ini.php');". NL. NL. NL.
 			  
 			   "/**". NL. "* database server name".  NL. "*/". NL.
-               "define('DB_SERVER', '$db_server');". NL. NL. NL.
+               "defined('DB_SERVER') or define('DB_SERVER', '$db_server');". NL. NL. NL.
 			   
 			   "/**". NL. "* database user name". NL. "*/". NL.
-               "define('DB_USER', '$db_user');" . NL. NL. NL.
+               "defined('DB_USER') or define('DB_USER', '$db_user');" . NL. NL. NL.
 			   
 			   "/**". NL. "* database user password". NL. "*/". NL.
-               "define('DB_PASS', '$db_pass');".      NL. NL. NL.
+               "defined('DB_PASS') or define('DB_PASS', '$db_pass');".      NL. NL. NL.
 			   
 			   "/**". NL. "* database name".     NL. "*/". NL.
-               "define('DB_NAME', '$db_name');". NL. NL. NL.
+               "defined('DB_NAME') or define('DB_NAME', '$db_name');". NL. NL. NL.
 			   
 			   "/**". NL. "* database tables prefix".        NL. "*/". NL.
-               "define('TABLES_PREFIX', '$tables_prefix');". NL. NL. NL.
+               "defined('TABLES_PREFIX') or define('TABLES_PREFIX', '$tables_prefix');". NL. NL. NL.
 			   
 			   "/**". NL. "* File system path to installed plugins directory". NL. "*/". NL.
-			   "define('PLUGINS_DIR',   '$plugins_dir');". NL. "";
+			   "defined('PLUGINS_DIR') or define('PLUGINS_DIR',   '$plugins_dir');". NL. "";
 			   
 	$config_file = new FileWriter('../unified-install.config.php', 'WRITE_ONLY');
 	$config_file->write($content);
