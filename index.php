@@ -62,13 +62,14 @@ foreach($eligible_plugins AS $plugin_directory)
 		{
 			$plugins_to_install[] = $plugin_directory;
 		}
-		$state = isset($_POST['plugins'][$plugin_directory]) ? 'checked="checked"' : '';
-		$available_plugins_str .= $plugin_directory. " <input type=\"checkbox\" name=\"plugins[$plugin_directory]\" $state /><br/>". "\r\n";
 	}
 	else
 	{
 		$plugins_to_install[] = $plugin_directory;
 	}
+	
+	$state = isset($_POST['plugins'][$plugin_directory]) ? 'checked="checked"' : '';
+	$available_plugins_str .= $plugin_directory. " <input type=\"checkbox\" name=\"plugins[$plugin_directory]\" $state /><br/>". "\r\n";
 }
 
 $available_plugins_str .= "</div>";
